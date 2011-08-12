@@ -1,0 +1,60 @@
+
+$(function() {
+	$('#resetButton').hide().bind('click', function() { reset(); })
+	reset();
+});
+function createNumber(number) {
+	var output = '<div class=number>' + number + '</div>';
+	$(output).appendTo($('#numbers'));
+}
+function isLowestNumber(div) {
+	var currentVal = parseInt($(div).text());
+	var isLowest = true;
+	$('.number:visible').each(function() {
+		isLowest = isLowest && (currentVal <= parseInt($(this).text()));
+	});
+	return isLowest;
+}
+function clickDiv(div) {
+	if (!isLowestNumber(div)) {
+		showWrong();
+		return;
+	}
+	$(div).fadeOut();
+	if ($('.number:visible').length <= 1) showWin();
+}
+function reset() {
+	$('#resetButton').hide();
+	$('#win').hide();
+	$('#numbers').html('');
+	var vals = generateRandomNumberArray(6);
+	for (val in vals) {
+		createNumber(vals[val]);
+	}
+	$('.number').bind('click', function() { clickDiv(this); })
+}
+function generateRandomNumberArray(count) {
+	var vals = [];
+	for (i=0; i < count; i++) {
+		var rand = 0;
+		do { rand = getRandomNumber(); } while (vals.indexOf(rand) > -1);
+		vals[i] = rand;
+	}
+	return vals;
+}
+function getRandomNumber() {
+	return Math.floor(Math.random()*76);
+}
+function showWrong() {
+	$('#wrong').show();
+	setTimeout(function() { $('#wrong').fadeOut(); }, 2000);
+}
+function showWin() {
+	$('#resetButton').fadeIn();
+	$('#win').fadeIn();
+}
+function playSound(filename) {
+	var audioElement = document.createElement('audio');
+	audioElement.setAttribute('src', '../mp3/' + filename + '.mp3');
+	audioElement.play();
+}

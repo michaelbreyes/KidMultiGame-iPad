@@ -1,0 +1,3 @@
+var globals = {
+	availableCards: ['horse.jpg','lion.jpg','mouse.jpg','pig.jpg','rabbit.jpg','sheep.jpg','snake.jpg','tiger.jpg','chicken.jpg','dog.jpg','cow.jpg']
+}

@@ -1,0 +1,6 @@
+@font-face {
+	 font-family: "Comic Sans MS";
+	 src: url("../comic.ttf");
+	 font-weight:normal;
+}
+body { background-color: black; font-family: "Comic Sans MS"; color: white; text-align: center; }

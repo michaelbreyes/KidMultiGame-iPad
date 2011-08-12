@@ -1,0 +1,90 @@
+$(document).ready(function() {
+	$('#resetButton').bind('click', function() { match.reset(); })
+	match.reset();
+});
+var match = (function(){
+	var rows = 6;
+	var cols = 6;
+	var availableCards = ['horse.jpg','lion.jpg','mouse.jpg','pig.jpg','rabbit.jpg','sheep.jpg','snake.jpg','tiger.jpg','chicken.jpg','dog.jpg','cow.jpg'];
+	
+	return {
+		bindEvents: function(cardSel, resetSel, gridSel) {
+			resetSel.bind('click', function() { match.reset(); });
+		},
+		
+		reset: function() {
+			$('#win').hide();
+			$('#grid').show();
+			var html = '', img;
+			var cards = this.loadTheCardDeck();
+			for (i=0;i<rows;i++) {
+				html += '<tr>';
+				for(j=0;j<cols;j++) {
+					img = this.popRandomCard(cards);
+					html += '<td><div class="slot"><div class="veil"></div><div class="card" data-img="' +
+						img + '"><img src="images/' + img + '" /></div></div></td>';
+				}
+				html += '</tr>';
+			}
+			$('#grid').html(html);
+			$('.veil').bind('click', function() { match.veilClick(this); });
+		},
+		
+		popRandomCard: function(cardDeck) {
+			var indx = Math.floor(Math.random()*cardDeck.length);
+			var card = cardDeck[indx];
+			cardDeck.splice(indx, 1);
+			return card;
+		},
+		
+		veilClick: function(veil) {
+			$(veil).next('.card').attr('data-visible', true);
+			$(veil).fadeOut();
+			this.checkForMatch();
+		},
+		
+		checkForMatch: function() {
+			var sel = '.card[data-visible=true]';
+			var visibleCards = $(sel);
+			if (visibleCards.length <= 1) return;
+			if ($(sel+':eq(0)').attr('data-img') == $(sel+':eq(1)').attr('data-img')) {
+				this.foundMatch(visibleCards);
+			} else {
+				this.closeVeils(visibleCards);
+			}
+			visibleCards.removeAttr('data-visible');
+		},
+		
+		foundMatch: function(visibleCards) {
+			setTimeout(function() { visibleCards.fadeOut(); }, 1000);
+			if ($(".veil:visible").length <=  1) {
+				this.showWin();
+			} else {
+				$('#matchSound')[0].play();
+			}
+		},
+		
+		closeVeils: function(visibleCards) {
+			setTimeout(function() { visibleCards.prev('.veil').fadeIn(); }, 1000);
+			$('#wrongSound')[0].play();
+		},
+		
+		loadTheCardDeck: function() {
+			var arrayLength = rows * cols;
+			var index = 0;
+			var deck = [];
+			for (i=0;i<(arrayLength/2);i++,index++) {
+				if (index >= availableCards.length) index = 0;
+				deck[deck.length] = availableCards[index];
+				deck[deck.length] = availableCards[index];
+			}
+			return deck;
+		},
+		
+		showWin: function() {
+			$('#winSound')[0].play();
+			$('#grid').hide();
+			$('#win').fadeIn();
+		}
+	}
+}());

@@ -1,0 +1,7 @@
+#content { position:relative; display: inline-block; width: 400px; }
+.number,#resetButton { display: block; border-radius: 15px; width: 100%; font-size: 24px; padding: 10px; color: white; margin-bottom: 5px; background-color: Red; }
+.number:nth-child(3n) { background-color: Blue; }
+.number:nth-child(3n+1) { background-color: Green; }
+.number:nth-child(3n+2) { background-color: Brown; }
+#wrong { position: absolute; top: -110px; left: 20px; font-size: 500px; color: red; display: none; }
+#win { font-size: 50px; color: Yellow; display: none; }

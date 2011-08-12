@@ -1,0 +1,74 @@
+<html>
+	<head>
+    	<link href="css/shared.css" rel="stylesheet" type="text/css" />
+    	<style>
+    		td { height: 100px; width: 125px; background-color: Gray; }
+    	</style>
+		<script type="text/javascript" src="scripts/jquery.min.jsf"></script>
+		<script type="text/javascript" src="scripts/globals.jsf"></script>
+		<script type="text/javascript">
+			$(function() {
+				choice.bindElements();
+				choice.reset();
+			})
+			var choice = {
+				questions: [
+					{ question: 'Which of these has a trunk?', answer: 'elephant' },
+					{ question: 'Which of these has stripes?', answer: 'tiger' },
+					{ question: 'Which of these goes oink?', answer: 'pig' }
+				],
+				currentIndex: 0,
+				
+				bindElements: function() {
+					$('.answer').bind('click',function() {
+						choice.showNewQuestion();
+						choice.showAnswers();
+					});
+				},
+				
+				reset: function() {
+					$('#win').hide();
+				},
+				
+				showNewQuestion: function() {
+					var ques = this.questions[this.currentIndex++];
+					if (this.currentIndex >= this.questions.length) this.currentIndex = 0;
+					$('#question').text(ques.question);
+				},
+				
+				showAnswers: function(rightAnswer) {
+					var cards = globals.availableCards;
+					var indexes = getRandomNonRepeatingNumbers(4, cards.length);
+				},
+								
+				getRandomNonRepeatingNumbers: function(count, maxNumber) {
+					
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Multiple Choice</h1>
+		<div id="question"></div>
+		<table>
+			<tr>
+				<td id="cell1" class="answer"></td>
+				<td id="cell2" class="answer"></td>
+			</tr>
+			<tr>
+				<td id="cell3" class="answer"></td>
+				<td id="cell4" class="answer"></td>
+			</tr>
+		</table>
+		
+		<div id="win">
+			You Win!
+			<br /><br />
+			<div id="resetButton">Click here to reset</div>
+		</div>
+		
+		<audio src="sounds/fart.mp3" id="wrongSound" />
+		<audio src="sounds/match.mp3" id="matchSound" />
+		<audio src="sounds/matchwin.mp3" id="winSound" />
+	</body>
+</html>

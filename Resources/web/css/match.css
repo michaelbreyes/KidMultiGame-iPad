@@ -1,0 +1,6 @@
+.slot { margin: 2px; width: 125px; height: 100px; position: relative; }
+.veil { position: absolute; top: 0; left: 0; background-color: blue; z-index: 999; display: block; height: 100%; width: 100%; }
+.card { position: absolute; top: 0; left: 0; background-color: white; z-index: 1; display: block; height: 100%; width: 100%; }
+.card img { height: 100px; width: 125px; }
+#win { font-size: 50px; color: Yellow; }
+#resetButton { display: inline-block; padding:25px; border-radius: 15px; background-color: red; color: white; width: 500px; }
